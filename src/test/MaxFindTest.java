@@ -5,12 +5,10 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 public class MaxFindTest {
 
@@ -49,8 +47,43 @@ public class MaxFindTest {
         assertFalse(isElegibleForVoting.test(65));
     }
 
+    @Test
+    public void testFunctional() {
+        Function<Integer, Pessoa> ordemFila = num -> num == 5 ? new Pessoa("Fulano", 18): null;
+
+        assertTrue(ordemFila.apply(5).getNome().equals("Fulano"));
+        assertTrue(ordemFila.apply(5).getIdade().equals(18));
+    }
+
 
 }
+
+class Pessoa {
+    Integer idade;
+    String nome;
+
+    Pessoa(String nome, Integer idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
+
+    public Integer getIdade() {
+        return idade;
+    }
+
+    public void setIdade(Integer idade) {
+        this.idade = idade;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+}
+
 
 
 
