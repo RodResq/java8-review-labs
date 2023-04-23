@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -53,6 +54,13 @@ public class MaxFindTest {
 
         assertTrue(ordemFila.apply(5).getNome().equals("Fulano"));
         assertTrue(ordemFila.apply(5).getIdade().equals(18));
+    }
+
+    @Test
+    public void testPrintLogging() {
+        Consumer<String> logging = s -> System.out.println(String.format("Aceesse pelo usuario %s", s));
+        logging.accept("rodrigo");
+
     }
 
 
