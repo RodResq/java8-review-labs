@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static junit.framework.TestCase.*;
 
@@ -61,6 +62,14 @@ public class MaxFindTest {
         Consumer<String> logging = s -> System.out.println(String.format("Aceesse pelo usuario %s", s));
         logging.accept("rodrigo");
 
+    }
+
+    @Test
+    public void testSupplier() {
+        Supplier<Integer> getRandomInteger = () -> (int) (Math.random() * 500);
+        Consumer<Integer> mostrarRandor = num -> System.out.println(String.format("O numero random e: %s", num));
+        mostrarRandor.accept(getRandomInteger.get());
+        assertTrue(getRandomInteger.get() <= 500);
     }
 
 
