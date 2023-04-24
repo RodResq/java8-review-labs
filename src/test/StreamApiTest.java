@@ -1,6 +1,5 @@
 package test;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -55,6 +54,36 @@ public class StreamApiTest {
                 .stream()
                 .filter(number -> number % 2 == 1)
                 .count();
+
         assertEquals(4L, retorno);
     }
+
+    @Test
+    public void testPrimeirosDoisNumerosPares() {
+        List<Integer> retorno = numbers
+                .stream()
+                .sorted()
+                .filter(number -> number % 2 == 0)
+                .limit(2)
+                .collect(Collectors.toList());
+        List<Integer> retornoExperado = Arrays.asList(2, 4);
+
+        assertArrayEquals(retornoExperado.toArray(), retorno.toArray());
+    }
+
+    @Test
+    public void testQuadradoDeUmNumero() {
+        List<Integer> retorno = numbers
+                .stream()
+                .sorted()
+                .limit(2)
+                .map(num -> num * num)
+                .collect(Collectors.toList());
+        List<Integer> retornoExperado = Arrays.asList(1, 4);
+
+        assertArrayEquals(retorno.toArray(), retornoExperado.toArray());
+    }
+
 }
+
+

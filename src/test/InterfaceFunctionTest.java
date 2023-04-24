@@ -3,15 +3,14 @@ package test;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertFalse;
 
 
 public class InterfaceFunctionTest {
@@ -70,5 +69,48 @@ public class InterfaceFunctionTest {
 
         assertEquals(37, sum);
     }
+
+    @Test
+    public void testInterfaceFuncionalDefinida() {
+        OperationExample operation = num -> num * num;
+        System.out.println(OperationExample.getOperationNature());
+
+        assertEquals(25, operation.square(5));
+    }
+
+    @Test
+    public void testExemploComFuncion() {
+        Function<Integer, Integer> operatios = value -> value * value;
+
+        assertEquals(new Integer(25), operatios.apply(5));
+    }
+
+    @Test
+    public void testPassandoUmaFuncaoComoParametroDeUmMetodoFunction() {
+        Integer retorno = compute(value -> value * value, 5);
+
+        assertEquals(new Integer(25), retorno);
+    }
+
+    @Test
+    public void testPassandoUmaFuncaoComoParametroDeUmMetodoPredicate() {
+        Boolean retorno = isMaiorIdade(idade -> idade >= 18, 18);
+
+        assertTrue(retorno);
+    }
+
+    @Test
+    public void testComposeFunction() {
+        Function<Integer, Integer> function = num -> num * num;
+    }
+
+    private Integer compute(Function<Integer, Integer> operation, int param) {
+        return operation.apply(param);
+    }
+
+    private Boolean isMaiorIdade(Predicate<Integer> predicate, int param) {
+        return predicate.test(param);
+    }
+
 }
-//5. Primitive Function Specializations
+
