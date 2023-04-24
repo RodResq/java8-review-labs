@@ -1,11 +1,11 @@
 package test;
 
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.function.Function;
-import java.util.function.Predicate;
+import java.util.function.*;
 import java.util.stream.Collectors;
 
 import static junit.framework.Assert.assertTrue;
@@ -104,6 +104,41 @@ public class InterfaceFunctionTest {
         Function<Integer, Integer> function = num -> num * num;
     }
 
+    @Test
+    public void testRunnableInterface() {
+        Thread t = new Thread(() -> System.out.println("Runnable Interface"));
+    }
+
+    @Test
+    public void testIfObjectIsNull() {
+//        Predicate<Object> predicate = new CheckForNull();
+//        boolean retorno = predicate.test(new Pessoa("teste", 18));
+        Predicate<Object> predicate = obj -> obj != null;
+        boolean retorno = predicate.test(new Pessoa("teste", 18));
+        Assert.assertNotNull(retorno);
+    }
+
+    @Test
+    public void testImprimindoComConsumir() {
+        Consumer<String> consumer = System.out::println;
+        consumer.accept("test");
+    }
+
+    @Test
+    public void testImprimirRandom() {
+        Supplier<Double> supplier = Math::random;
+        System.out.println(supplier.get());
+    }
+
+    @Test
+    public void testBiFunction() {
+//        BiFunction<Integer, Integer, Integer> biFunction = (num1, num2) -> num1 + num2;
+        BiFunction<Integer, Integer, Integer> biFunction = Integer::sum;
+        Integer retorno = biFunction.apply(10, 20);
+
+        assertEquals(new Integer(30), retorno);
+    }
+
     private Integer compute(Function<Integer, Integer> operation, int param) {
         return operation.apply(param);
     }
@@ -113,4 +148,14 @@ public class InterfaceFunctionTest {
     }
 
 }
+
+class CheckForNull implements Predicate<Object> {
+
+    @Override
+    public boolean test(Object o) {
+        return o != null;
+    }
+}
+
+
 
