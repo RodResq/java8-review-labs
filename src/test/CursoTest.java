@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 
 public class CursoTest {
@@ -17,8 +18,8 @@ public class CursoTest {
     @Before
     public void setup() {
         cursos.add(new Curso("Python", 45));
-        cursos.add(new Curso("JavaScript", 150));
         cursos.add(new Curso("Java 8", 113));
+        cursos.add(new Curso("JavaScript", 150));
         cursos.add(new Curso("C", 55));
 
     }
@@ -52,9 +53,9 @@ public class CursoTest {
     public void testCollectorToList() {
         List<String> retornoNomes = new ArrayList<>();
         cursos
-            .stream()
-            .filter(c -> c.getAlunos() > 100)
-            .forEach(c -> retornoNomes.add(c.getNome()));
+                .stream()
+                .filter(c -> c.getAlunos() > 100)
+                .forEach(c -> retornoNomes.add(c.getNome()));
 
 
         List<String> cursosEsperados = Arrays.asList("JavaScript", "Java 8");
@@ -65,14 +66,32 @@ public class CursoTest {
     @Test
     public void testMapStream() {
         Map<String, Integer> retornoMap = cursos
-                                            .stream()
-                                            .filter(c -> c.getAlunos() > 100)
-                                            .collect(Collectors.toMap(
-                                                    c -> c.getNome(),
-                                                    c -> c.getAlunos()));
+                .stream()
+                .filter(c -> c.getAlunos() > 100)
+                .collect(Collectors.toMap(
+                        c -> c.getNome(),
+                        c -> c.getAlunos()));
 
         assertTrue(retornoMap.get("JavaScript").equals(150));
         assertTrue(retornoMap.get("Java 8").equals(113));
+    }
+    
+    @Test
+    public void testOptionalFirst() {
+        Optional<Curso> retorno = cursos.stream()
+                .filter(c -> c.getAlunos() > 100)
+                .findFirst();
+
+        assertEquals(retorno.get().getNome(), "Java 8");
+
+    }
+
+    @Test
+    public void testOptionalIfPresent() {
+        cursos.stream()
+                .filter(c -> c.getAlunos() > 1000)
+                .findAny()
+                .ifPresent(c -> System.out.println(c.getNome()));
     }
 
 }
