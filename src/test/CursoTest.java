@@ -8,8 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 public class CursoTest {
 
@@ -88,10 +87,12 @@ public class CursoTest {
 
     @Test
     public void testOptionalIfPresent() {
-        cursos.stream()
-                .filter(c -> c.getAlunos() > 1000)
-                .findAny()
-                .ifPresent(c -> System.out.println(c.getNome()));
+        Optional<Curso> optional = cursos.stream()
+                .filter(c -> c.getAlunos() > 100)
+                .findAny();
+//                .ifPresent(c -> System.out.println(c.getNome()));
+        Optional<Curso> retorno = optional.filter(curso -> curso.getNome().contains("Java"));
+        retorno.ifPresent(c -> System.out.println(c.getNome()));
     }
 
     @Test
@@ -112,6 +113,15 @@ public class CursoTest {
                 .sum();
 
         assertEquals(retorno, 263);
+    }
+
+    @Test
+    public void testAnyMatch() {
+        List<Integer> numeros = Arrays.asList(23, 45, 6, 78, 122);
+
+        assertTrue(numeros.stream().anyMatch(n -> n > 1));
+        assertTrue(numeros.stream().allMatch(n -> n > 1));
+        assertTrue(numeros.stream().noneMatch(n -> n < 0));
     }
 
 }
