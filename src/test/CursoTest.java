@@ -94,6 +94,16 @@ public class CursoTest {
                 .ifPresent(c -> System.out.println(c.getNome()));
     }
 
+    @Test
+    public void testStreamAverage() {
+        OptionalDouble retorno = cursos.stream()
+                .filter(c -> c.getAlunos() > 100)
+                .mapToDouble(c -> c.getAlunos())
+                .average();
+
+        assertEquals(retorno.getAsDouble(), 131.5);
+    }
+
 }
 
 class Curso {
