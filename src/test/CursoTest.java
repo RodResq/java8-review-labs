@@ -101,7 +101,17 @@ public class CursoTest {
                 .mapToDouble(c -> c.getAlunos())
                 .average();
 
-        assertEquals(retorno.getAsDouble(), 131.5);
+        assertEquals(retorno, 131.5);
+    }
+
+    @Test
+    public void testStreamSum() {
+        int retorno = cursos.stream()
+                .filter(c -> c.getAlunos() > 100)
+                .mapToInt(c -> c.getAlunos())
+                .sum();
+
+        assertEquals(retorno, 263);
     }
 
 }
