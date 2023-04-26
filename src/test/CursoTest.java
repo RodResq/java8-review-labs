@@ -200,8 +200,12 @@ public class CursoTest {
         Integer retorno2 = numbers.stream()
                 .reduce(1, (x, y) -> x + y);
 
+        Integer retorno3 = numbers.stream()
+                .reduce(0, Integer::sum);
+
         assertEquals(retorno1.get(), new Integer(21));
         assertEquals(retorno2, new Integer(22));
+        assertEquals(retorno3, new Integer(21));
     }
 
     @Test
@@ -213,9 +217,15 @@ public class CursoTest {
         String retorno2 = letras.stream()
                 .reduce("", String::concat);
 
+        String retorno3 = letras.stream()
+                .reduce("", (partialString, element) -> partialString.toUpperCase() + element.toUpperCase());
+
         assertEquals(retorno1, "abcde");
         assertEquals(retorno2, "abcde");
+        assertEquals(retorno3, "ABCDE");
     }
+
+//    https://www.baeldung.com/java-stream-reduce#Reducing-in-parallel -> continuar
 
 }
 
