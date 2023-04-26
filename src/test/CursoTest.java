@@ -124,6 +124,29 @@ public class CursoTest {
         assertTrue(numeros.stream().noneMatch(n -> n < 0));
     }
 
+    @Test
+    public void testStreamPeek() {
+        cursos.stream()
+                .filter(c -> c.getAlunos() > 100)
+                .map(Curso::getNome)
+                .peek(System.out::println)
+                .collect(Collectors.toList());
+    }
+
+    @Test
+    public void testStreamLimit() {
+        List<String> retorno = cursos.stream()
+                .filter(c -> c.getAlunos() > 50)
+                .map(Curso::getNome)
+                .sorted(Comparator.comparingInt(String::length))
+                .peek(System.out::println)
+                .limit(2)
+                .collect(Collectors.toList());
+
+        assertEquals(retorno.get(0), "C");
+        assertEquals(retorno.get(1), "Java 8");
+    }
+
 }
 
 class Curso {
