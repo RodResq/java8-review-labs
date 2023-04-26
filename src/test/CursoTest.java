@@ -4,11 +4,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static junit.framework.TestCase.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class CursoTest {
 
@@ -147,6 +149,74 @@ public class CursoTest {
         assertEquals(retorno.get(1), "Java 8");
     }
 
+    @Test
+    public void testStreamCount() {
+        long retorno = cursos.stream()
+                .filter(c -> c.getAlunos() > 100)
+                .count();
+
+        assertEquals(retorno, 2);
+    }
+
+    @Test
+    public void testStreamReduce() {
+        Optional<Integer> retorno = Optional.ofNullable(cursos.stream()
+                .map(c -> c.getAlunos())
+                .reduce(0, (subtotal, total) -> subtotal + total));
+
+        assertEquals(retorno.get(), new Integer(363));
+    }
+
+    @Test
+    public void testStreamReduce2() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+        Integer retorno1 = numbers.stream()
+                .reduce(1, (a, b) -> a + b);
+        Optional<Integer> retorno2 = numbers.stream()
+                .reduce((a, b) -> a + b);
+        retorno2.ifPresent(System.out::println);
+
+        assertEquals(retorno1, new Integer(16));
+        assertEquals(retorno2.get(), new Integer(15));
+    }
+
+    @Test
+    public void testStramWithBigDecimal() {
+        List<BigDecimal> numbers = Arrays.asList(new BigDecimal("1.2"), new BigDecimal("2.4"),
+                new BigDecimal("3.7"), new BigDecimal("4.9"));
+        BigDecimal retorno = numbers.stream()
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        assertEquals(retorno, new BigDecimal("12.2"));
+
+    }
+
+    @Test
+    public void testStreamReduce3() {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+
+        Optional<Integer> retorno1 = numbers.stream()
+                .reduce((x, y) -> x + y);
+        Integer retorno2 = numbers.stream()
+                .reduce(1, (x, y) -> x + y);
+
+        assertEquals(retorno1.get(), new Integer(21));
+        assertEquals(retorno2, new Integer(22));
+    }
+
+    @Test
+    public void testStramReduce4() {
+        List<String> letras = Arrays.asList("a", "b", "c", "d", "e");
+        String retorno1 = letras.stream()
+                .reduce("", (partialString, element) -> partialString + element);
+
+        String retorno2 = letras.stream()
+                .reduce("", String::concat);
+
+        assertEquals(retorno1, "abcde");
+        assertEquals(retorno2, "abcde");
+    }
+
 }
 
 class Curso {
@@ -166,5 +236,6 @@ class Curso {
         return alunos;
     }
 }
+
 
 
