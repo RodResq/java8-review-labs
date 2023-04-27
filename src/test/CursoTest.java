@@ -399,6 +399,8 @@ public class CursoTest {
     }
 }
 
+//    Map<String, Set<Integer>> teamUniqueScores = players.stream().collect( groupingBy(Player::team, mapping(Player::score, toSet())));
+
 class Player {
     private String nome;
     private char sexo;
