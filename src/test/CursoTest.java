@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static junit.framework.TestCase.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -227,6 +228,50 @@ public class CursoTest {
 
 //    https://www.baeldung.com/java-stream-reduce#Reducing-in-parallel -> continuar
 
+    @Test
+    public void testPrimitiveStream() {
+        List<Integer> array = Arrays.asList(1, 2, 3, 4, 5);
+        int sum = array.stream()
+                .mapToInt(a -> a.intValue())
+                .sum();
+
+        assertEquals(sum, 15);
+    }
+
+    @Test
+    public void testConcatStream() {
+        List<String> frutas1 = Arrays.asList("apple", "banana", "cherry");
+        List<String> fruta2 = Arrays.asList("orange", "pineapple", "mango");
+
+        List<String> retorno = Stream.concat(frutas1.stream(), fruta2.stream())
+                .collect(Collectors.toList());
+
+        assertEquals(retorno.size(), 6);
+
+    }
+
+    @Test
+    public void testConcatStreamWithFilter() {
+        List<String> frutas1 = Arrays.asList("apple", "banana", "cherry");
+        List<String> frutas2 = Arrays.asList("orange", "pineapple", "mango");
+
+        List<String> retorno = Stream.concat(frutas1.stream(), frutas2.stream())
+                .filter(f -> f.length() > 5)
+                .collect(Collectors.toList());
+
+        assertEquals(retorno.size(), 4);
+
+    }
+
+    @Test
+    public void testRemoverDuplicatosComDistinct() {
+        List<Integer> numeros = Arrays.asList(1, 2, 3, 3, 4, 5, 5);
+        List<Integer> retorno = numeros.stream()
+                .distinct()
+                .collect(Collectors.toList());
+
+        assertEquals(retorno.size(), 5);
+    }
 }
 
 class Curso {
