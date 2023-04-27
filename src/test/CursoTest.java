@@ -352,6 +352,51 @@ public class CursoTest {
                 .collect(Collectors.groupingBy(Player::getTeam, Collectors.averagingInt(Player::getScore)));
         System.out.println(retorno);
     }
+
+    @Test
+    public void testCounting() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 15000, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Red"),
+                new Player("Maycon", 'M', 10, "Green"),
+                new Player("Mia", 'F', 10, "Blue")
+        );
+        Map<String, Long> retorno = players.stream()
+                .collect(Collectors.groupingBy(Player::getTeam, Collectors.counting()));
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testSubGroups() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 15000, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Red"),
+                new Player("Maycon", 'M', 10, "Green"),
+                new Player("Mia", 'F', 10, "Blue")
+        );
+        Map<String, Map<Character, Long>> sexCountInTeams = players.stream()
+                .collect(Collectors.groupingBy(Player::getTeam,
+                        Collectors.groupingBy(Player::getSexo, Collectors.counting())));
+
+        System.out.println(sexCountInTeams);
+    }
+
+    @Test
+    public void testNomesPorSexo() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 15000, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Red"),
+                new Player("Maycon", 'M', 10, "Green"),
+                new Player("Mia", 'F', 10, "Blue")
+        );
+        Map<Character, List<String>> retorno = players.stream()
+                .collect(Collectors.groupingBy(Player::getSexo,
+                        Collectors.mapping(Player::getNome, Collectors.toList())));
+        System.out.println(retorno);
+    }
 }
 
 class Player {
