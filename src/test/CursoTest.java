@@ -272,6 +272,126 @@ public class CursoTest {
 
         assertEquals(retorno.size(), 5);
     }
+
+    @Test
+    public void testListToMap() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 2, "Red"),
+                new Player("Evelyn", 'F', 7, "Blue"),
+                new Player("Madison", 'M', 9, "Green")
+        );
+
+        Map<String, Player> retorno = players.stream()
+                .collect(HashMap::new, (m, p) -> m.put(p.getTeam(), p), (m1, m2) -> m1.putAll(m2));
+//                .collect(Collectors.toMap(
+//                        Player::getNome,
+//                        p -> new Player(p.getNome(), p.getSexo(), p.getScore(), p.getTeam())));
+        System.out.println(retorno);
+//        assertEquals(retorno.get("Charles").getTeam(), "Green");
+//        assertEquals(retorno.get("Evelyn").getTeam(), "Blue");
+//        assertEquals(retorno.get("Madison").getTeam(), "Blue");
+    }
+
+    @Test
+    public void testGroupingBy() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 2, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Green")
+        );
+        Map<String, List<Player>> retorno = players.stream()
+                .collect(Collectors.groupingBy(Player::getTeam));
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testParttioningBy() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 15000, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Green")
+        );
+        Map<Boolean, List<Player>> retorno = players.stream()
+                .collect(Collectors.partitioningBy(p -> p.getScore() > 1000));
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testParticionandoListaGrouppingBy() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 15000, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Green")
+        );
+        Map<Boolean, List<Player>> retorno = players.stream()
+                .collect(Collectors.groupingBy(p -> p.getScore() > 1000));
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testSummingScore() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 15000, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Green")
+        );
+        Map<String, Integer> retorno = players.stream()
+                .collect(Collectors.groupingBy(Player::getTeam, Collectors.summingInt(Player::getScore)));
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testAverigingInt() {
+        List<Player> players = Arrays.asList(
+                new Player("Charles", 'M', 15000, "Red"),
+                new Player("Evelyn", 'F', 7, "Red"),
+                new Player("Madison", 'M', 9, "Green"),
+                new Player("Maycon", 'M', 10, "Green")
+        );
+        Map<String, Double> retorno = players.stream()
+                .collect(Collectors.groupingBy(Player::getTeam, Collectors.averagingInt(Player::getScore)));
+        System.out.println(retorno);
+    }
+}
+
+class Player {
+    private String nome;
+    private char sexo;
+    private int score;
+    private String team;
+
+    public Player(String nome, char sexo, int score, String team) {
+        this.nome = nome;
+        this.sexo = sexo;
+        this.score = score;
+        this.team = team;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public char getSexo() {
+        return sexo;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    @Override
+    public String toString() {
+        return "Player{" +
+                "nome='" + nome + '\'' +
+                ", sexo=" + sexo +
+                ", score=" + score +
+                ", team='" + team + '\'' +
+                '}';
+    }
 }
 
 class Curso {
