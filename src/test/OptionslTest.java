@@ -2,6 +2,8 @@ package test;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -154,6 +156,51 @@ public class OptionslTest {
         assertFalse(priecIsInRange2(new Modem(15.5)));
         assertFalse(priecIsInRange2(null));
     }
+
+    @Test
+    public void testOptionalMap2() {
+        List<String> companyNames = Arrays.asList(
+                "paypal", "oracle", "", "microsoft", "", "apple");
+        Optional<List<String>> retorno = Optional.of(companyNames);
+
+        int retornoMap = retorno
+                .map(List::size)
+                .orElse(0)
+                .intValue();
+
+        assertEquals(retornoMap, 6);
+    }
+
+    @Test
+    public void testOptionalMap() {
+        String name = "baeldung";
+        Optional<String> nameOptional = Optional.of(name);
+        int retorno = nameOptional
+                .map(String::length)
+                .orElse(0)
+                .intValue();
+
+        assertEquals(8, retorno);
+    }
+
+    @Test
+    public void testCorrectOptionalFilter() {
+        String password = " password ";
+        Optional<String> passOpt = Optional.of(password);
+        boolean retorno1 = passOpt
+                .filter(p -> p.equals("password"))
+                .isPresent();
+        assertFalse(retorno1);
+
+        boolean retorno2 = passOpt
+                .map(String::trim)
+                .filter(p -> p.equals("password"))
+                .isPresent();
+
+        assertTrue(retorno2);
+    }
+
+//    TODO Continuar daqui: https://www.baeldung.com/java-optional#flat-map
 
     private boolean priceIsInRange1(Modem modem) {
         boolean isInRange = false;
