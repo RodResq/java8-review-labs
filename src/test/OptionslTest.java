@@ -2,6 +2,7 @@ package test;
 
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static junit.framework.TestCase.*;
@@ -102,9 +103,88 @@ public class OptionslTest {
         assertEquals("Text present", retorno);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testExcepitonOrElseThrow() {
+        String nullName = null;
+        Optional.ofNullable(nullName).orElseThrow(IllegalArgumentException::new);
+
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testNoSuchElementeException() {
+        String nullName = null;
+        Optional.ofNullable(nullName).orElseThrow(NoSuchElementException::new);
+    }
+
     public String getMyDefault() {
         System.out.println("Geeting default value");
         return "Default Value";
     }
 
+    @Test
+    public void testOptionalGet() {
+        Optional<String> opt = Optional.of("baeldung");
+        String retorno = opt.get();
+
+        assertEquals("baeldung", retorno);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testNosuchElementExceptonWithGet() {
+        Optional<Object> opt = Optional.ofNullable(null);
+        Object retorno = opt.get();
+
+    }
+
+    @Test
+    public void testOptionalWithFilter() {
+        Integer year = 2016;
+        Optional<Integer> yearOptional = Optional.of(year);
+        boolean is2016 = yearOptional.filter(y -> y == 2016).isPresent();
+        assertTrue(is2016);
+        boolean is2017 = yearOptional.filter(y -> y == 2017).isPresent();
+        assertFalse(is2017);
+    }
+
+    @Test
+    public void testPrincIsRange() {
+        assertTrue(priecIsInRange2(new Modem(10.0)));
+        assertFalse(priecIsInRange2(new Modem(9.9)));
+        assertFalse(priecIsInRange2(new Modem(null)));
+        assertFalse(priecIsInRange2(new Modem(15.5)));
+        assertFalse(priecIsInRange2(null));
+    }
+
+    private boolean priceIsInRange1(Modem modem) {
+        boolean isInRange = false;
+
+        if (modem != null && modem.getPrice() != null
+                && (modem.getPrice() >= 10)
+                && (modem.getPrice() <= 15)) {
+
+            isInRange = true;
+        }
+        return isInRange;
+    }
+
+    private boolean priecIsInRange2(Modem modem) {
+        return Optional.ofNullable(modem)
+                .map(Modem::getPrice)
+                .filter(m -> m >= 10)
+                .filter(m -> m <= 15)
+                .isPresent();
+    }
+
+}
+
+class Modem {
+    private Double price;
+
+    public Modem(Double price) {
+        this.price = price;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
 }
