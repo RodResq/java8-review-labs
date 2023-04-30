@@ -256,6 +256,11 @@ public class OptionslTest {
         assertEquals(getHello(), retorno);
     }
 
+//    TODO continuar artigos:
+//    https://www.baeldung.com/java-optional-return
+//     https://www.baeldung.com/jackson-optional
+
+
     private Optional<String> getEmpty() {
         return Optional.empty();
     }
