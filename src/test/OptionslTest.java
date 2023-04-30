@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import static junit.framework.TestCase.*;
 
@@ -218,6 +220,61 @@ public class OptionslTest {
 
         assertEquals("jhon", retorno);
     }
+
+    @Test
+    public void testOptionalEncadeado() {
+        Optional<String> retorno = Stream.of(getEmpty(), getHello(), getBye())
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+
+        assertEquals(getHello(), retorno);
+    }
+
+    @Test
+    public void testCadeiaOptionalWithSupllier() {
+        Optional<String> retorno = Stream.<Supplier<Optional<String>>>of(this::getEmpty, this::getHello, this::getBye)
+                .map(Supplier::get)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+
+        assertEquals(getHello(), retorno);
+    }
+
+    @Test
+    public void testLazyInitializationWithSupplier() {
+        Optional<String> retorno = Stream.<Supplier<Optional<String>>>of(
+                        () -> createOptional("empty"),
+                        () -> createOptional("hello")
+                )
+                .map(Supplier::get)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+
+        assertEquals(getHello(), retorno);
+    }
+
+    private Optional<String> getEmpty() {
+        return Optional.empty();
+    }
+
+    private Optional<String> getHello() {
+        return Optional.of("hello");
+    }
+
+    private Optional<String> getBye() {
+        return Optional.of("bye");
+    }
+
+    private Optional<String> createOptional(String input) {
+        if (input == null || "".equals(input) || "empty".equals(input)) {
+            return Optional.empty();
+        }
+        return Optional.of(input);
+    }
+
 
     private boolean priceIsInRange1(Modem modem) {
         boolean isInRange = false;
