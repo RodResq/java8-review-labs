@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.text.DateFormat;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -46,5 +47,50 @@ public class ApiDataTest {
 
         assertEquals(Month.APRIL, mesPassado.getMonth());
         assertEquals(2022, anoPassado.getYear());
+    }
+
+    @Test
+    public void testDiaMesAnoPosterior() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate amanha = hoje.plusDays(1);
+        LocalDate mesSeguinte = hoje.plusMonths(1);
+        LocalDate anoSeguinte = hoje.plusYears(1);
+
+        assertEquals(DayOfWeek.TUESDAY, amanha.getDayOfWeek());
+        assertEquals(Month.JUNE, mesSeguinte.getMonth());
+        assertEquals(2024, anoSeguinte.getYear());
+    }
+
+    @Test
+    public void testFormatadorDeData() {
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate hoje = LocalDate.now();
+        String dataFormatada = hoje.format(formatador);
+
+        assertEquals("08/05/2023", dataFormatada);
+    }
+
+    @Test
+    public void testLocalDateTime() {
+        LocalDateTime agora = LocalDateTime.now();
+        DateTimeFormatter formataDataHora = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+        System.out.println(agora.format(formataDataHora));
+    }
+
+    @Test
+    public void testYearMonth() {
+        YearMonth anoMes = YearMonth.of(2015, Month.JANUARY);
+        System.out.println(anoMes.format(DateTimeFormatter.ofPattern("MM/yyyy")));
+
+        assertEquals("2015-01", anoMes.toString());
+    }
+
+    @Test
+    public void testLocalTime() {
+//        Serve para trabalhar apenas com tempo
+        LocalTime intervalo = LocalTime.of(12, 30);
+        System.out.println(intervalo.format(DateTimeFormatter.ofPattern("hh-mm")));
+
+        assertEquals("12:30", intervalo.toString());
     }
 }
