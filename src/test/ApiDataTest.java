@@ -8,6 +8,8 @@ import java.time.*;
 import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 import static junit.framework.TestCase.*;
@@ -159,5 +161,21 @@ public class ApiDataTest {
         boolean retorno = LocalDate.parse("2016-06-12").isAfter(LocalDate.parse("2016-06-10"));
         assertTrue(retorno);
     }
+
+    @Test
+    public void testRecuperarInicioData() {
+        LocalDateTime retorno = LocalDate.parse("2016-06-12").atStartOfDay();
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testRecuperaPrimeiroDiaDoMesDadaData() {
+        LocalDate retorno = LocalDate.parse("2016-06-12").with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate parse = LocalDate.parse("2016-06-01");
+
+        assertEquals(parse, retorno);
+    }
+
+//    TODO continuar deste ponto: https://www.baeldung.com/java-8-date-time-intro#2-working-with-localtime
 
 }
