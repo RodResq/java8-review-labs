@@ -5,10 +5,12 @@ import org.junit.Test;
 
 import java.text.DateFormat;
 import java.time.*;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.*;
 
 public class ApiDataTest {
 
@@ -93,4 +95,69 @@ public class ApiDataTest {
 
         assertEquals("12:30", intervalo.toString());
     }
+
+    @Test
+    public void testLocalDate() {
+        LocalDate dataHoje = LocalDate.of(2023, Month.MAY, 13);
+        LocalDate retorno = LocalDate.now();
+
+        assertEquals(dataHoje, retorno);
+    }
+
+    @Test
+    public void testMethodOfAndParse() {
+        LocalDate parse = LocalDate.parse("2015-02-20");
+        LocalDate retorno = LocalDate.of(2015, 02, 20);
+
+        assertEquals(parse, retorno);
+    }
+
+    @Test
+    public void testAdcionarUmDiaDataAtual() {
+        LocalDate amanha = LocalDate.of(2023, Month.MAY, 14);
+        LocalDate retorno = LocalDate.now().plusDays(1);
+
+        assertEquals(amanha, retorno);
+    }
+
+    @Test
+    public void testRecuperandoMesAnterior() {
+        LocalDate mesAnterior = LocalDate.parse("2023-04-13");
+//        LocalDate retorno = LocalDate.now().minus(1, ChronoUnit.MONTHS);
+        LocalDate retorno = LocalDate.now().minusMonths(1);
+        assertEquals(mesAnterior, retorno);
+    }
+
+    @Test
+    public void testRecuperarDiaSemana() {
+        DayOfWeek retorno = LocalDate.parse("2016-06-12").getDayOfWeek();
+
+        assertEquals(DayOfWeek.SUNDAY, retorno);
+    }
+
+    @Test
+    public void testRecuperarDiaDoMes() {
+        int retorno = LocalDate.parse("2016-06-12").getDayOfMonth();
+
+        assertEquals(12, retorno);
+    }
+
+    @Test
+    public void testSeDataOcorre() {
+        boolean retorno = LocalDate.now().isLeapYear();
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testSeDataAnterior() {
+        boolean retorno = LocalDate.parse("2016-06-12").isBefore(LocalDate.parse("2016-06-11"));
+        assertFalse(retorno);
+    }
+
+    @Test
+    public void testSeDataPosterior() {
+        boolean retorno = LocalDate.parse("2016-06-12").isAfter(LocalDate.parse("2016-06-10"));
+        assertTrue(retorno);
+    }
+
 }
