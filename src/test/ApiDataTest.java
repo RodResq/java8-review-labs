@@ -1,16 +1,11 @@
 package test;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-import java.text.DateFormat;
 import java.time.*;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
-import java.util.Date;
 
 import static junit.framework.TestCase.*;
 
@@ -177,5 +172,64 @@ public class ApiDataTest {
     }
 
 //    TODO continuar deste ponto: https://www.baeldung.com/java-8-date-time-intro#2-working-with-localtime
+
+    @Test
+    public void testLocalTime2() {
+        LocalTime retorno = LocalTime.now();
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testLocalTimeComParce() {
+        LocalTime retorno = LocalTime.parse("06:30");
+        LocalTime expect = LocalTime.of(6, 30);
+        System.out.println(retorno);
+        assertEquals(expect, retorno);
+    }
+
+    @Test
+    public void testLocalTimeComOf() {
+        LocalTime retorno = LocalTime.of(6, 30);
+        LocalTime expect = LocalTime.parse("06:30");
+        assertEquals(expect, retorno);
+    }
+
+    @Test
+    public void testAdcionandoHoraNoLocalTime() {
+        LocalTime retorno = LocalTime.parse("06:30").plus(1, ChronoUnit.HOURS);
+        LocalTime expect = LocalTime.of(7, 30);
+
+        assertEquals(expect, retorno);
+    }
+
+    @Test
+    public void testRecuperarHoras() {
+        int retorno = LocalTime.parse("06:30").getHour();
+        assertEquals(6, retorno);
+    }
+
+    @Test
+    public void testGetMinutes() {
+        int retorno = LocalTime.of(6, 30).getMinute();
+        assertEquals(30, retorno);
+    }
+
+    @Test
+    public void testSeHorasEAntes() {
+        boolean retorno = LocalTime.parse("06:30").isBefore(LocalTime.parse("07:30"));
+        assertTrue(retorno);
+    }
+
+    @Test
+    public void testSeHorasDepois() {
+        boolean retorno = LocalTime.parse("06:30").isAfter(LocalTime.parse("05:30"));
+        assertTrue(retorno);
+    }
+
+    @Test
+    public void testMaxHour() {
+        LocalTime retorno = LocalTime.MAX;
+        System.out.println(retorno);
+    }
 
 }
