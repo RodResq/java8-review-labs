@@ -232,4 +232,37 @@ public class ApiDataTest {
         System.out.println(retorno);
     }
 
+    @Test
+    public void testLocalDateTime2() {
+        LocalDateTime retorno = LocalDateTime.now();
+        System.out.println(retorno);
+    }
+
+    @Test
+    public void testLocalDateTimeOf() {
+        LocalDateTime retorno = LocalDateTime.of(2015, Month.FEBRUARY, 20, 06, 30, 00);
+        LocalDateTime expect = LocalDateTime.parse("2015-02-20T06:30:00");
+        assertEquals(expect, retorno);
+    }
+
+    @Test
+    public void testAdcionarDiasNoLcalDateTime() {
+        LocalDateTime retorno = LocalDateTime.of(2015, Month.FEBRUARY, 20, 06, 30, 00).plusDays(1);
+        LocalDateTime expect = LocalDateTime.parse("2015-02-21T06:30:00");
+        assertEquals(expect, retorno);
+    }
+
+    @Test
+    public void testDiminuirHoras() {
+        LocalDateTime retorno = LocalDateTime.of(2015, Month.FEBRUARY, 20, 06, 30).minusHours(2);
+        LocalDateTime expect = LocalDateTime.of(2015, Month.FEBRUARY, 20, 04, 30);
+        assertEquals(expect, retorno);
+    }
+
+    @Test
+    public void testGetMonth() {
+        Month retorno = LocalDateTime.parse("2015-02-21T06:30:00").getMonth();
+        assertEquals(Month.FEBRUARY, retorno);
+    }
+
 }
