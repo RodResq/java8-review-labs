@@ -171,7 +171,7 @@ public class ApiDataTest {
         assertEquals(parse, retorno);
     }
 
-//    TODO continuar deste ponto: https://www.baeldung.com/java-8-date-time-intro#2-working-with-localtime
+//    continuar deste ponto: https://www.baeldung.com/java-8-date-time-intro#2-working-with-localtime
 
     @Test
     public void testLocalTime2() {
@@ -265,7 +265,7 @@ public class ApiDataTest {
         assertEquals(Month.FEBRUARY, retorno);
     }
 
-//    TODO https://www.baeldung.com/java-8-date-time-intro#zonedDateTime
+//    https://www.baeldung.com/java-8-date-time-intro#zonedDateTime
 
     @Test
     public void testAcresentearDiasComPeriod() {

@@ -202,7 +202,7 @@ public class OptionslTest {
         assertTrue(retorno2);
     }
 
-//    TODO Continuar daqui: https://www.baeldung.com/java-optional#flat-map
+//    Continuar daqui: https://www.baeldung.com/java-optional#flat-map
     @Test
     public void testFlatMap() {
         Person person = new Person("jhon", 26);
@@ -256,7 +256,7 @@ public class OptionslTest {
         assertEquals(getHello(), retorno);
     }
 
-//    TODO continuar artigos:
+//    continuar artigos:
 //    https://www.baeldung.com/java-optional-return
 //     https://www.baeldung.com/jackson-optional
 
