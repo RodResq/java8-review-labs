@@ -1,4 +1,4 @@
-package test;
+package test.apiData;
 
 import org.junit.Test;
 
@@ -267,5 +267,32 @@ public class ApiDataTest {
 
 //    TODO https://www.baeldung.com/java-8-date-time-intro#zonedDateTime
 
+    @Test
+    public void testAcresentearDiasComPeriod() {
+        LocalDate initialDate = LocalDate.parse("2007-05-10");
+        LocalDate retorno = initialDate.plus(Period.ofDays(5));
+        LocalDate expect = LocalDate.parse("2007-05-15");
+
+        assertEquals(expect, retorno);
+    }
+
+    @Test
+    public void testRecuperarDiasEntreDuasDatas() {
+        LocalDate initialDate = LocalDate.parse("2007-05-10");
+        LocalDate finalDate = initialDate.plus(Period.ofDays(5));
+
+        int intervalDays = Period.between(initialDate, finalDate).getDays();
+
+        assertEquals(5, intervalDays);
+    }
+
+    @Test
+    public void testRecuperarIntervaloDeDiasUsandoChronoUnit() {
+        LocalDate initialDate = LocalDate.parse("2007-05-10");
+        LocalDate finalDate = initialDate.plus(Period.ofDays(7));
+        long interval = ChronoUnit.DAYS.between(initialDate, finalDate);
+
+        assertEquals(7, interval);
+    }
 
 }
